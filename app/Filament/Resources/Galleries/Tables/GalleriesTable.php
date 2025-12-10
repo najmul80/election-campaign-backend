@@ -6,9 +6,11 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class GalleriesTable
 {
@@ -16,9 +18,13 @@ class GalleriesTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image_path')
+                
+                ImageColumn::make('image_path') 
                     ->label('ছবি')
-                    ->height(60),
+                    ->disk('public') 
+                    ->visibility('public')
+                    ->height(60)
+                    ->circular(),
 
                 TextColumn::make('caption')
                     ->label('ক্যাপশন')
@@ -30,19 +36,28 @@ class GalleriesTable
                         'primary' => 'rally',
                         'success' => 'campaign',
                         'warning' => 'meeting',
+                        'info'    => 'poster',
                     ])
                     ->label('ক্যাটাগরি')
                     ->searchable(),
 
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('তৈরির তারিখ')
+                    ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('category')
+                    ->label('ক্যাটাগরি অনুযায়ী দেখুন')
+                    ->options([
+                        'rally' => 'জনসভা (Rally)',
+                        'campaign' => 'প্রচারণা (Campaign)',
+                        'meeting' => 'ঘরোয়া সভা (Meeting)',
+                        'poster' => 'পোস্টার (Poster)',
+                    ]),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])

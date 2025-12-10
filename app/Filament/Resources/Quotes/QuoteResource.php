@@ -18,9 +18,9 @@ class QuoteResource extends Resource
 {
     protected static ?string $model = Quote::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
+    protected static ?string $navigationLabel = 'উক্তি';
+    protected static string | \UnitEnum | null $navigationGroup = 'মিডিয়া ও প্রচার';
 
     public static function form(Schema $schema): Schema
     {

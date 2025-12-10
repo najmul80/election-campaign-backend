@@ -17,19 +17,26 @@ class VideosTable
         return $table
             ->columns([
                 ImageColumn::make('thumbnail')
-                    ->label('থাম্বনেইল'),
-
+                    ->label('থাম্বনেইল')
+                    ->disk('public') 
+                    ->height(60)
+                    ->circular(), 
+                    
                 TextColumn::make('title')
                     ->searchable()
-                    ->label('শিরোনাম'),
+                    ->label('শিরোনাম')
+                    ->wrap(), 
 
                 TextColumn::make('youtube_code')
-                    ->label('Video ID'),
+                    ->label('Video ID')
+                    ->badge()
+                    ->color('info')
+                    ->copyable(), 
             ])
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([ 
                 EditAction::make(),
                 DeleteAction::make(),
             ])

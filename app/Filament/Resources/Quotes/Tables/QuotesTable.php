@@ -19,6 +19,8 @@ class QuotesTable
             ->columns([
                 ImageColumn::make('image')
                     ->label('ছবি')
+                    ->disk('public')
+                    ->visibility('public')
                     ->circular(), // ছবি গোল দেখাবে
 
                 TextColumn::make('name')

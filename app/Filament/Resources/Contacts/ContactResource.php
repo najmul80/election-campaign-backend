@@ -16,11 +16,11 @@ use Filament\Tables\Table;
 
 class ContactResource extends Resource
 {
-    protected static ?string $model = Contact::class;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+     protected static ?string $model = Contact::class;
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-envelope';
+    protected static ?string $navigationLabel = 'ইনবক্স (মেসেজ)';
+    protected static string | \UnitEnum | null $navigationGroup = 'জনসংযোগ';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

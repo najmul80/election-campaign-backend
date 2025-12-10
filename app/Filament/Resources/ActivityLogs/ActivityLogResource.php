@@ -21,11 +21,9 @@ class ActivityLogResource extends Resource
 {
     protected static ?string $model = Activity::class;
 
-    // ✅ correct types for Filament v4
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static string|UnitEnum|null $navigationGroup = 'System';
-
-    protected static ?string $navigationLabel = 'Activity Logs';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationLabel = 'অ্যাক্টিভিটি লগ';
+    protected static string | \UnitEnum | null $navigationGroup = 'সিস্টেম';
 
     public static function form(Schema $schema): Schema
     {

@@ -8,19 +8,17 @@ use App\Filament\Resources\Blogs\Pages\ListBlogs;
 use App\Filament\Resources\Blogs\Schemas\BlogForm;
 use App\Filament\Resources\Blogs\Tables\BlogsTable;
 use App\Models\Blog;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class BlogResource extends Resource
 {
     protected static ?string $model = Blog::class;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationLabel = 'নিউজ';
+    protected static string | \UnitEnum | null $navigationGroup = 'মিডিয়া ও প্রচার';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

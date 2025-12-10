@@ -18,9 +18,10 @@ class VideoResource extends Resource
 {
     protected static ?string $model = Video::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-video-camera';
+    protected static ?string $navigationLabel = 'ভিডিও';
+    protected static string | \UnitEnum | null $navigationGroup = 'মিডিয়া ও প্রচার';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {

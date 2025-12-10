@@ -62,7 +62,13 @@ class CandidateForm
                         RichEditor::make('biography')
                             ->label('জীবনী / বিস্তারিত')
                             ->toolbarButtons([
-                                'bold', 'italic', 'bulletList', 'orderedList', 'link', 'h2', 'h3'
+                                'bold', 'italic', 'underline', 'strike',
+                                'bulletList', 'orderedList', 'taskList',
+                                'link', 'image', 'video', 'table',
+                                'h1', 'h2', 'h3', 'blockquote', 'codeBlock',
+                                'alignLeft', 'alignCenter', 'alignRight',
+                                'undo', 'redo'
+
                             ])
                             ->columnSpanFull(),
                     ])->columns(2),

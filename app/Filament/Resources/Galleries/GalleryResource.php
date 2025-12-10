@@ -18,9 +18,10 @@ class GalleryResource extends Resource
 {
     protected static ?string $model = Gallery::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-photo';
+    protected static ?string $navigationLabel = 'গ্যালারী';
+    protected static string | \UnitEnum | null $navigationGroup = 'মিডিয়া ও প্রচার';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

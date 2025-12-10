@@ -21,7 +21,9 @@ class ManifestosTable
                     ->label('SL'),
                 
                 ImageColumn::make('icon')
-                    ->label('আইকন'),
+                    ->label('আইকন')
+                    ->disk('public')
+                    ->visibility('public'), 
                 
                 TextColumn::make('title')
                     ->searchable()

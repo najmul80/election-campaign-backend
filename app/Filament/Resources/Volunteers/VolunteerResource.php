@@ -18,9 +18,10 @@ class VolunteerResource extends Resource
 {
     protected static ?string $model = Volunteer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-hand-raised';
+    protected static ?string $navigationLabel = 'স্বেচ্ছাসেবক';
+    protected static string | \UnitEnum | null $navigationGroup = 'জনসংযোগ';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

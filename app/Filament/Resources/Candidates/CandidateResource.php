@@ -17,10 +17,10 @@ use Filament\Tables\Table;
 class CandidateResource extends Resource
 {
     protected static ?string $model = Candidate::class;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationLabel = 'প্রার্থী';
+    protected static string | \UnitEnum | null $navigationGroup = 'নির্বাচন ব্যবস্থাপনা';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

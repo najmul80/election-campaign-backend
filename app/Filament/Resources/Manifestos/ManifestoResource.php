@@ -17,10 +17,10 @@ use Filament\Tables\Table;
 class ManifestoResource extends Resource
 {
     protected static ?string $model = Manifesto::class;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationLabel = 'ইশতেহার';
+    protected static string | \UnitEnum | null $navigationGroup = 'নির্বাচন ব্যবস্থাপনা';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {

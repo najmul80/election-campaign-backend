@@ -18,9 +18,10 @@ class SliderResource extends Resource
 {
     protected static ?string $model = Slider::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-presentation-chart-line';
+    protected static ?string $navigationLabel = 'স্লাইডার';
+    protected static string | \UnitEnum | null $navigationGroup = 'মিডিয়া ও প্রচার';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {

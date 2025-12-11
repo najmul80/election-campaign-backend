@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Programs\Schemas;
 
+use App\Models\Candidate;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
@@ -21,7 +23,11 @@ class ProgramForm
                         TextInput::make('title')
                             ->label('ইভেন্টের নাম')
                             ->required(),
-                        
+                        Select::make('candidate_id')
+    ->label('প্রার্থী')
+    ->options(Candidate::all()->pluck('name', 'id'))
+    ->searchable()
+    ->required(),
                         TextInput::make('location')
                             ->label('স্থান') // যেমন: সিরাজগঞ্জ স্টেডিয়াম
                             ->required(),

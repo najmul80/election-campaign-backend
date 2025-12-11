@@ -17,11 +17,19 @@ class ProgramResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'location' => $this->location,
-            'date' => \Carbon\Carbon::parse($this->date_time)->format('d M, Y'),
-            'time' => \Carbon\Carbon::parse($this->date_time)->format('h:i A'),
-            'image' => $this->image ? asset('storage/'.$this->image) : null,
             'description' => $this->description,
+            'location' => $this->location,
+            'image' => $this->image ? asset('storage/'.$this->image) : null,
+
+            'date' => $this->date_time ? $this->date_time->format('Y-m-d') : null,
+            'time' => $this->date_time ? $this->date_time->format('h:i A') : null,
+
+            'candidate' => $this->candidate?->name,
+            'candidate_id' => $this->candidate?->id,
+
+            'constituency' => $this->candidate?->constituency?->name,
+            'constituency_id' => $this->candidate?->constituency?->id,
+
         ];
     }
 }

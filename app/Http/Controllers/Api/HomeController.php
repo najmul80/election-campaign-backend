@@ -42,8 +42,14 @@ class HomeController extends Controller
                 'sliders' => SliderResource::collection(Slider::where('is_active', true)->get()),
                 'candidates' => CandidateResource::collection(Candidate::with('constituency')->get()),
                 'manifestos' => ManifestoResource::collection(Manifesto::orderBy('serial_no')->get()),
-                'programs' => ProgramResource::collection(Program::where('date_time', '>=', now())->orderBy('date_time')->take(3)->get()),
-                'gallery' => GalleryResource::collection(Gallery::latest()->take(8)->get()),
+                'programs' => ProgramResource::collection(
+                                Program::with(['candidate.constituency'])
+                                    ->where('date_time', '>=', now())
+                                    ->orderBy('date_time')
+                                    ->take(3)
+                                    ->get()
+                            ),
+                                            'gallery' => GalleryResource::collection(Gallery::latest()->take(8)->get()),
                 'videos' => VideoResource::collection(Video::latest()->paginate(4)),
                 'news' => BlogResource::collection(Blog::where('is_published', true)->latest()->take(3)->get()),
                 'quotes' => QuoteResource::collection(Quote::where('is_active', true)->get()),

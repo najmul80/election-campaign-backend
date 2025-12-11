@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('symbol_photo')->nullable(); // মার্কার ছবি
             $table->string('designation')->nullable(); // উদাঃ এমপি পদপ্রার্থী
             $table->string('facebook_url')->nullable();
-            $table->text('biography')->nullable();
+            $table->json('biography')->nullable();
             $table->text('intro_video_link')->nullable(); // প্রার্থীর পরিচিতি ভিডিও
             $table->timestamps();
         });

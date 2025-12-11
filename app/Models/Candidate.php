@@ -21,6 +21,10 @@ class Candidate extends Model
         'intro_video_link'
     ];
 
+    protected $casts = [
+        'biography' => 'array',
+    ];
+
     public function constituency(): BelongsTo
     {
         return $this->belongsTo(Constituency::class);
@@ -29,8 +33,8 @@ class Candidate extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'designation', 'constituency_id','biography']) // কোন ফিল্ডগুলোর চেঞ্জ ট্র্যাক করবেন
-            ->logOnlyDirty() // শুধু যা পরিবর্তন হয়েছে তাই লগ করবে
+            ->logOnly(['name', 'designation', 'constituency_id','biography']) 
+            ->logOnlyDirty() 
             ->dontSubmitEmptyLogs();
     }
 }

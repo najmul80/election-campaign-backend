@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('manifestos', function (Blueprint $table) {
             $table->id();
+             $table->foreignId('candidate_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('title'); // উদাঃ শিক্ষা খাত
             $table->text('description');
             $table->string('icon')->nullable(); // আইকন নাম বা ছবি
             $table->integer('serial_no')->default(0);
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

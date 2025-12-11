@@ -39,6 +39,10 @@ class QuotesTable
 
                 ToggleColumn::make('is_active')
                     ->label('স্ট্যাটাস'), // সরাসরি টেবিল থেকেই অন/অফ করা যাবে
+                    
+                ToggleColumn::make('is_approved')
+                    ->label('স্ট্যাটাস')
+                    ->disabled(fn () => !auth()->user()->hasRole('super_admin')),
             ])
             ->filters([
                 //

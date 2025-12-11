@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class ProgramsTable
@@ -31,6 +32,9 @@ class ProgramsTable
                     ->dateTime('d M Y, h:i A')
                     ->label('সময়')
                     ->sortable(),
+                ToggleColumn::make('is_approved')
+                    ->label('স্ট্যাটাস')
+                    ->disabled(fn () => !auth()->user()->hasRole('super_admin')),
             ])
             ->defaultSort('date_time', 'desc')
             ->filters([

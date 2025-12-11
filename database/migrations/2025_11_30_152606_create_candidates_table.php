@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('constituency_id')->constrained()->cascadeOnDelete(); // আসনের সাথে লিংক
             $table->string('name');
+            $table->boolean('is_approved')->default(false);
             $table->string('photo');
             $table->string('symbol_photo')->nullable(); // মার্কার ছবি
             $table->string('designation')->nullable(); // উদাঃ এমপি পদপ্রার্থী

@@ -9,6 +9,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -46,6 +47,11 @@ class ProgramForm
                         RichEditor::make('description')
                             ->label('বিস্তারিত বিবরণ')
                             ->columnSpanFull(),
+
+                        Toggle::make('is_approved')
+                            ->label('পাবলিশ করুন')
+                             ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
                     ])->columns(2)
             ]);
     }

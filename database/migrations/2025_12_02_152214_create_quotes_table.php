@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('designation')->nullable(); // পদবী
             $table->string('image')->nullable(); // ছবি
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

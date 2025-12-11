@@ -6,6 +6,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -31,17 +32,26 @@ class SettingForm
                     ->schema([
                         Textarea::make('footer_text')
                             ->label('ফুটার টেক্সট')
-                            ->helperText('ফুটারের নিচে কপিরাইট অংশের উপরে এই লেখাটি থাকবে।')
                             ->rows(3)
                             ->columnSpanFull(),
                     ]),
                     
                 Section::make('লোগো ও এসইও')
                     ->schema([
-                        FileUpload::make('logo')->label('লোগো')->image()->disk('public')->directory('settings'),
-                        FileUpload::make('favicon')->label('ফ্যাভিকন')->image()->disk('public')->directory('settings'),
+                        FileUpload::make('logo')
+                            ->label('লোগো')
+                            ->image()
+                            ->disk('public')
+                            ->directory('settings')
+                            ->visibility('public'), // ✅ যুক্ত করা হয়েছে
 
-                        // আপনার স্কিমার meta_description
+                        FileUpload::make('favicon')
+                            ->label('ফ্যাভিকন')
+                            ->image()
+                            ->disk('public')
+                            ->directory('settings')
+                            ->visibility('public'), // ✅ যুক্ত করা হয়েছে
+
                         Textarea::make('meta_description')
                             ->label('SEO মেটা ডেসক্রিপশন')
                             ->rows(3)
@@ -50,13 +60,31 @@ class SettingForm
 
                 Section::make('সোশ্যাল মিডিয়া')
                     ->schema([
-
                         KeyValue::make('social_links')
                             ->label('সোশ্যাল লিংক সমূহ')
-                            ->keyLabel('প্লাটফর্ম (যেমন: facebook)')
-                            ->valueLabel('লিংক (URL)')
+                            ->keyLabel('প্লাটফর্ম')
+                            ->valueLabel('লিংক')
                             ->addActionLabel('নতুন লিংক যোগ করুন')
                             ->reorderable()
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('ওয়েবসাইট পপ-আপ (Popup)')
+                    ->schema([
+                        Toggle::make('is_popup_active')
+                            ->label('পপ-আপ চালু রাখুন')
+                            ->default(true)
+                            ->columnSpanFull(),
+
+                        FileUpload::make('popup_image')
+                            ->label('পপ-আপ ছবি আপলোড করুন')
+                            ->image()
+                            ->disk('public')
+                            ->directory('settings')
+                            ->visibility('public')
+                            ->maxSize(5120) 
+                            ->preserveFilenames()
+                            // ->imageEditor() // 
                             ->columnSpanFull(),
                     ]),
             ]);

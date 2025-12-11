@@ -7,6 +7,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -48,6 +49,13 @@ class CandidateForm
                     ->label('ভিডিও লিংক')
                     ->url()
                     ->prefixIcon('heroicon-m-video-camera'),
+
+                Toggle::make('is_approved')
+                    ->label('অনুমোদন (Approve)')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                    ->visible(fn () => auth()->user()?->hasRole('super_admin')),
             ])
             ->columnSpan(2), // ✅ বাম পাশ ২ কলাম
 

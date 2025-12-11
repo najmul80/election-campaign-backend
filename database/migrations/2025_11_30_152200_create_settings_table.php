@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('meta_description')->nullable();
             $table->text('footer_text')->nullable();
             $table->json('social_links')->nullable(); // Facebook, Twitter links
+            $table->string('popup_image')->nullable(); // পপ-আপ ছবি
+            $table->boolean('is_popup_active')->default(true); 
             $table->timestamps();
         });
     }

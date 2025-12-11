@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('location');
             $table->dateTime('date_time');
             $table->string('image')->nullable();
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

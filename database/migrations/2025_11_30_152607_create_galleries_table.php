@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('image_path');
             $table->string('caption')->nullable();
             $table->string('category')->default('general'); // rally, meeting, campaign
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

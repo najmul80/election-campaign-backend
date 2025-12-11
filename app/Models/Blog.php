@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\AutoApproves;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity; // ১. ইম্পোর্ট
 use Spatie\Activitylog\LogOptions;
 
 class Blog extends Model
 {
-    use LogsActivity; // ২. ট্রেইট ব্যবহার করুন
+    use LogsActivity, AutoApproves; 
+    
     protected $guarded = [];
 
     public function getActivitylogOptions(): LogOptions

@@ -49,6 +49,11 @@ class BlogForm
                         RichEditor::make('content')
                             ->label('বিস্তারিত সংবাদ')
                             ->columnSpanFull(),
+
+                        Toggle::make('is_approved')
+                            ->label('অনুমোদন (Publish)')
+                             ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
                     ])->columns(2),
             ]);
     }

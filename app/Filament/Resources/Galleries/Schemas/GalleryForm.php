@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Galleries\Schemas;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -36,6 +37,11 @@ class GalleryForm
                                 'poster' => 'পোস্টার',
                             ])
                             ->required(),
+
+                        Toggle::make('is_approved')
+                            ->label('গ্যালারিতে দেখান')
+                             ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
                     ]),
             ]);
     }

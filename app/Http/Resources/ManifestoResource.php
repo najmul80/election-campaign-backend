@@ -20,6 +20,9 @@ class ManifestoResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'icon' => $this->icon ? asset('storage/'.$this->icon) : null,
+            'candidate_id' => $this->candidate_id,
+            'candidate_name' => $this->candidate?->name,
+            'constituency' => $this->candidate?->constituency?->name,
         ];
     }
 }

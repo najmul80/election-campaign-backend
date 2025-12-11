@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 
 
@@ -46,6 +47,9 @@ class GalleriesTable
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ToggleColumn::make('is_approved')
+                    ->label('স্ট্যাটাস')
+                    ->disabled(fn () => !auth()->user()->hasRole('super_admin')),
             ])
             ->filters([
                 SelectFilter::make('category')

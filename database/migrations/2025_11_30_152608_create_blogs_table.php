@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('author')->nullable();
             $table->integer('views')->default(0);
             $table->boolean('is_published')->default(true);
+            $table->boolean('is_approved')->default(false); 
             $table->timestamps();
         });
     }

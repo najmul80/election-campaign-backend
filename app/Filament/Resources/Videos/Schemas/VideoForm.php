@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Videos\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -27,7 +28,11 @@ class VideoForm
                             ->required()
                             ->maxLength(255),
 
-                        // ✅ ফিক্স: TextInput এর বদলে FileUpload
+                        Toggle::make('is_approved')
+                            ->label('ভিডিও অনুমোদন')
+                             ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
+
                         FileUpload::make('thumbnail')
                             ->label('থাম্বনেইল (ছবি)')
                             ->image()

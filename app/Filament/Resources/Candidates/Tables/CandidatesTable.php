@@ -8,7 +8,10 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class CandidatesTable
 {
@@ -37,9 +40,16 @@ class CandidatesTable
                 TextColumn::make('designation')
                     ->label('পদবী')
                     ->limit(20),
+                ToggleColumn::make('is_approved')
+                    ->label('স্ট্যাটাস')
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->disabled(fn () => !auth()->user()->hasRole('super_admin')),
             ])
             ->filters([
-                // এখানে আমরা পরে ফিল্টার যোগ করতে পারি
+                Filter::make('pending')
+                ->label('অপেক্ষমান (Pending)')
+                ->query(fn (Builder $query) => $query->where('is_approved', false)),
             ])
             ->actions([
                 EditAction::make(),

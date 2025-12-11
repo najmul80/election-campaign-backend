@@ -6,9 +6,12 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 
 class BlogsTable
@@ -36,6 +39,15 @@ class BlogsTable
                 TextColumn::make('created_at')
                     ->dateTime('d M Y')
                     ->label('তারিখ'),
+                ToggleColumn::make('is_approved')
+                ->label('স্ট্যাটাস')
+                ->disabled(fn () => !auth()->user()->hasRole('super_admin')), 
+            ])
+            ->filters([
+            // ✅ ২. পেন্ডিং ডাটা দেখার ফিল্টার
+            Filter::make('pending_approval')
+                ->label('অপেক্ষমান (Pending)')
+                ->query(fn (Builder $query): Builder => $query->where('is_approved', false)),
             ])
             ->actions([
                 EditAction::make(),

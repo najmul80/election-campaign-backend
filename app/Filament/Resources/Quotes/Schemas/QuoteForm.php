@@ -46,6 +46,11 @@ class QuoteForm
                         Toggle::make('is_active')
                             ->label('সক্রিয় রাখুন')
                             ->default(true),
+
+                        Toggle::make('is_approved')
+                            ->label('অনুমোদন')
+                             ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
                     ])
                     ->columns(2)
             ]);

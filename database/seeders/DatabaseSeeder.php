@@ -10,6 +10,8 @@ use App\Models\Program;
 use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -23,14 +25,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // ১. সুপার অ্যাডমিন তৈরি (যদি না থাকে)
-        if (! User::where('email', 'admin@example.com')->exists()) {
-            User::create([
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
-                'password' => bcrypt('password'),
-            ]);
-        }
+       $approvePermission = Permission::firstOrCreate(['name' => 'approve_content']);
+        $backupPermission  = Permission::firstOrCreate(['name' => 'create-backup']);
+
+        // Role
+        $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
+
+        // Admin User
+        $adminUser = User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name'              => 'Admin',
+                'password'          => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $adminUser->assignRole($superAdminRole);
+        $superAdminRole->givePermissionTo([$approvePermission, $backupPermission]);
+
+
 
         // ২. সেটিংস ডাটা
         Setting::create([

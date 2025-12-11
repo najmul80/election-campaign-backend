@@ -6,6 +6,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 
 class ManifestoForm
@@ -16,8 +18,18 @@ class ManifestoForm
             ->components([
                 Section::make('ইশতেহার তথ্য')
                     ->schema([
+                        // ১. প্রার্থী বা আসন সিলেক্ট (সেকশনের ভেতরে আনা হয়েছে)
+                        Select::make('candidate_id')
+                            ->label('প্রার্থী / আসন (ঐচ্ছিক)')
+                            ->helperText('খালি রাখলে এটি "কেন্দ্রীয় ইশতেহার" হিসেবে গণ্য হবে।')
+                            ->relationship('candidate', 'name')
+                            ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->name} ({$record->constituency->name})")
+                            ->searchable()
+                            ->preload()
+                            ->columnSpanFull(),
+
                         TextInput::make('title')
-                            ->label('ইশতেহারের বিষয়') // যেমন: শিক্ষা খাত
+                            ->label('ইশতেহারের বিষয়')
                             ->required(),
                         
                         TextInput::make('serial_no')
@@ -35,7 +47,13 @@ class ManifestoForm
                             ->label('বিস্তারিত প্রতিশ্রুতি')
                             ->required()
                             ->columnSpanFull(),
-                    ])->columns(2)
+
+                        Toggle::make('is_approved')
+                            ->label('ইশতেহারে দেখান')
+                            ->default(fn () => auth()->user()?->hasRole('super_admin')) 
+                            ->visible(fn () => auth()->user()?->hasRole('super_admin')),
+                            
+                    ])->columns(2),
             ]);
     }
 }

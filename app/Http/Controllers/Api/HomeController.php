@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+// Resources
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\CandidateResource;
 use App\Http\Resources\GalleryResource;
 use App\Http\Resources\ManifestoResource;
-// Resources
 use App\Http\Resources\ProgramResource;
 use App\Http\Resources\QuoteResource;
 use App\Http\Resources\SettingResource;
 use App\Http\Resources\SliderResource;
 use App\Http\Resources\VideoResource;
+
+// Models
 use App\Models\Blog;
 use App\Models\Candidate;
 use App\Models\Comment;
@@ -25,7 +29,6 @@ use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\Video;
 use App\Models\Volunteer;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -40,33 +43,71 @@ class HomeController extends Controller
             'status' => 'success',
             'data' => [
                 'settings' => $settings ? new SettingResource($settings) : null,
+                
+                // স্লাইডারে সাধারণত is_active থাকে, তাই এটা ঠিক আছে
                 'sliders' => SliderResource::collection(Slider::where('is_active', true)->get()),
-                'candidates' => CandidateResource::collection(Candidate::with('constituency')->get()),
-                'manifestos' => ManifestoResource::collection(Manifesto::orderBy('serial_no')->get()),
+                
+                // ✅ Candidates: Approved check added
+                'candidates' => CandidateResource::collection(
+                    Candidate::where('is_approved', true)->with('constituency')->get()
+                ),
+                
+                // ✅ Manifestos: Approved check added
+                'manifestos' => ManifestoResource::collection(
+                    Manifesto::where('is_approved', true)->orderBy('serial_no')->get()
+                ),
+                
+                // ✅ Programs: Approved check added
                 'programs' => ProgramResource::collection(
-                                Program::with(['candidate.constituency'])
-                                    ->where('date_time', '>=', now())
-                                    ->orderBy('date_time')
-                                    ->take(3)
-                                    ->get()
-                            ),
-                                            'gallery' => GalleryResource::collection(Gallery::latest()->take(8)->get()),
-                'videos' => VideoResource::collection(Video::latest()->paginate(4)),
-                'news' => BlogResource::collection(Blog::where('is_published', true)->latest()->take(3)->get()),
-                'quotes' => QuoteResource::collection(Quote::where('is_active', true)->get()),
+                    Program::with(['candidate.constituency'])
+                        ->where('is_approved', true) // অ্যাডমিন অ্যাপ্রুভাল চেক
+                        ->where('date_time', '>=', now())
+                        ->orderBy('date_time')
+                        ->take(3)
+                        ->get()
+                ),
+                
+                // ✅ Gallery: Approved check added
+                'gallery' => GalleryResource::collection(
+                    Gallery::where('is_approved', true)->latest()->take(8)->get()
+                ),
+                
+                // ✅ Videos: Approved check added (Home page এ ৪টি ভিডিও)
+                'videos' => VideoResource::collection(
+                    Video::where('is_approved', true)->latest()->take(4)->get()
+                ),
+                
+                // ✅ News: Approved check added
+                'news' => BlogResource::collection(
+                    Blog::where('is_approved', true)
+                        ->where('is_published', true)
+                        ->latest()
+                        ->take(3)
+                        ->get()
+                ),
+                
+                // ✅ Quotes: Approved check added
+                'quotes' => QuoteResource::collection(
+                    Quote::where('is_approved', true)->get()
+                ),
             ],
         ]);
     }
 
     public function allGallery()
     {
-        return GalleryResource::collection(Gallery::latest()->paginate(12));
+        return GalleryResource::collection(
+            Gallery::where('is_approved', true)->latest()->paginate(12)
+        );
     }
 
     public function allNews()
     {
-        // ডাটা আনা
-        $news = Blog::where('is_published', true)->latest()->paginate(2);
+        // ✅ News: Approved check added here too
+        $news = Blog::where('is_approved', true)
+                    ->where('is_published', true)
+                    ->latest()
+                    ->paginate(2);
 
         return response()->json([
             'data' => BlogResource::collection($news),
@@ -80,22 +121,39 @@ class HomeController extends Controller
 
     public function singleNews($slug)
     {
-        $news = Blog::where('slug', $slug)->firstOrFail();
+        $news = Blog::where('is_approved', true)
+                    ->where('slug', $slug)
+                    ->firstOrFail();
 
         return new BlogResource($news);
     }
 
     public function singleCandidate($id)
     {
-        $candidate = Candidate::with('constituency')->findOrFail($id);
+        $candidate = Candidate::where('is_approved', true)
+                            ->with('constituency')
+                            ->findOrFail($id);
 
         return new CandidateResource($candidate);
     }
 
     public function allVideos()
     {
-        return VideoResource::collection(Video::latest()->paginate(8));
+        // ✅ Videos: Approved check added
+        return VideoResource::collection(
+            Video::where('is_approved', true)->latest()->paginate(8)
+        );
     }
+
+    public function singleProgram($id)
+    {
+        // ✅ Single Program: Approved check added
+        $program = Program::where('is_approved', true)->findOrFail($id);
+
+        return new ProgramResource($program);
+    }
+
+    // --- POST Methods (No Change Needed) ---
 
     public function storeVolunteer(Request $request)
     {
@@ -110,13 +168,6 @@ class HomeController extends Controller
         Volunteer::create($validated);
 
         return response()->json(['message' => 'রেজিস্ট্রেশন সফল হয়েছে!'], 201);
-    }
-
-    public function singleProgram($id)
-    {
-        $program = Program::findOrFail($id);
-
-        return new ProgramResource($program);
     }
 
     public function storeContact(Request $request)

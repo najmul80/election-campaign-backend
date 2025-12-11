@@ -18,4 +18,9 @@ class Blog extends Model
             ->logOnlyDirty() // শুধু যা পরিবর্তন হয়েছে তাই লগ করবে
             ->dontSubmitEmptyLogs();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->where('is_approved', true)->latest();
+    }
 }

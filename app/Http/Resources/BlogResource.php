@@ -22,6 +22,14 @@ class BlogResource extends JsonResource
             'content' => $this->content,
             'image' => $this->featured_image ? asset('storage/'.$this->featured_image) : null,
             'date' => $this->created_at->format('d M, Y'),
+            'comments' => $this->comments->map(function($comment) {
+                return [
+                    'id' => $comment->id,
+                    'name' => $comment->name,
+                    'message' => $comment->message,
+                    'date' => $comment->created_at->diffForHumans(), // যেমন: 2 hours ago
+                ];
+            }),
         ];
     }
 }

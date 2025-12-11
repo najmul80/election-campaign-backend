@@ -19,3 +19,4 @@ Route::get('/program/{id}', [HomeController::class, 'singleProgram']);
 // ফর্ম সাবমিশন (POST)
 Route::post('/volunteer-submit', [HomeController::class, 'storeVolunteer']);
 Route::post('/contact-submit', [HomeController::class, 'storeContact']);
+Route::post('/comment-submit', [HomeController::class, 'storeComment']);

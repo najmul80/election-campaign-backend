@@ -15,6 +15,7 @@ use App\Http\Resources\SliderResource;
 use App\Http\Resources\VideoResource;
 use App\Models\Blog;
 use App\Models\Candidate;
+use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Gallery;
 use App\Models\Manifesto;
@@ -130,5 +131,23 @@ class HomeController extends Controller
         Contact::create($validated);
 
         return response()->json(['message' => 'আপনার বার্তা পাঠানো হয়েছে!'], 201);
+    }
+
+    public function storeComment(Request $request)
+    {
+        $validated = $request->validate([
+            'blog_id' => 'required|exists:blogs,id',
+            'name' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        Comment::create([
+            'blog_id' => $validated['blog_id'],
+            'name' => $validated['name'],
+            'message' => $validated['message'],
+            'is_approved' => false, // অটোমেটিক পেন্ডিং থাকবে
+        ]);
+
+        return response()->json(['message' => 'কমেন্ট জমা হয়েছে! অ্যাডমিন অনুমোদনের পর এটি দেখা যাবে।']);
     }
 }

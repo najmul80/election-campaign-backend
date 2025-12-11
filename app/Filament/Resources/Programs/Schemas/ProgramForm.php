@@ -24,10 +24,10 @@ class ProgramForm
                             ->label('ইভেন্টের নাম')
                             ->required(),
                         Select::make('candidate_id')
-    ->label('প্রার্থী')
-    ->options(Candidate::all()->pluck('name', 'id'))
-    ->searchable()
-    ->required(),
+                            ->label('প্রার্থী')
+                            ->options(Candidate::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->required(),
                         TextInput::make('location')
                             ->label('স্থান') // যেমন: সিরাজগঞ্জ স্টেডিয়াম
                             ->required(),
